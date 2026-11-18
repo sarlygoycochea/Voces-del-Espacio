@@ -20,6 +20,35 @@ INDEX_FILE = BASE_DIR / "templates" / "index.html"
 crear_tablas()
 
 
+@app.route("/recuperar-administrador", methods=["POST"])
+def recuperar_administrador():
+    clave = request.headers.get("X-Admin-Recovery-Key", "")
+
+    if not os.environ.get("ADMIN_RECOVERY_KEY") or clave != os.environ["ADMIN_RECOVERY_KEY"]:
+        abort(403)
+
+    correo = "sarlygoycochea@gmail.com"
+
+    conexion = conectar()
+    try:
+        usuario = conexion.execute(
+            "SELECT id FROM usuarios WHERE correo = ?",
+            (correo,)
+        ).fetchone()
+
+        if not usuario:
+            return "La cuenta no existe.", 404
+
+        conexion.execute(
+            "UPDATE usuarios SET rol = 'administrador' WHERE id = ?",
+            (usuario["id"],)
+        )
+        conexion.commit()
+
+        return "Rol de administrador actualizado correctamente."
+    finally:
+        conexion.close()
+
 # CONTROL DE ACCESO
 def requiere_login(funcion):
     @wraps(funcion)
