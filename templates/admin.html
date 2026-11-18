@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administración | VOCES DEL ESPACIO</title>
+<style>
+body {
+    background: #100c35;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+main { max-width: 950px; margin: auto; }
+section {
+    background: #191943;
+    padding: 22px;
+    margin: 20px 0;
+    border-radius: 14px;
+}
+input, textarea, select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    margin: 7px 0;
+    border-radius: 7px;
+    border: 0;
+}
+button, .enlace {
+    padding: 10px 15px;
+    background: #f7ce70;
+    color: #100c35;
+    border: 0;
+    border-radius: 7px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+}
+.historia {
+    border-top: 1px solid #555;
+    padding: 15px 0;
+}
+</style>
+</head>
+<body>
+<main>
+<h1>🚀 VOCES DEL ESPACIO</h1>
+<h2>Panel de administración</h2>
+<p>Bienvenido, administrador.</p>
+
+{% for mensaje in get_flashed_messages() %}
+<p>{{ mensaje }}</p>
+{% endfor %}
+
+<section>
+<h2>Crear nueva historia</h2>
+<form method="POST" action="{{ url_for('crear_historia') }}">
+    <input name="titulo" placeholder="Título de la historia" required>
+    <input name="explorador" placeholder="Nombre del explorador" required>
+    <input name="planeta" placeholder="Planeta o lugar" required>
+    <input name="resumen" placeholder="Resumen">
+    <textarea name="contenido" placeholder="Historia completa" rows="5" required></textarea>
+    <select name="idioma">
+        <option value="español">Español</option>
+        <option value="inglés">Inglés</option>
+    </select>
+    <input name="audio_url" placeholder="Ruta o dirección del audio (opcional)">
+    <button type="submit">Guardar historia</button>
+</form>
+</section>
+
+<section>
+<h2>Historias registradas</h2>
+
+{% for historia in historias %}
+<div class="historia">
+    <h3>{{ historia.titulo }}</h3>
+    <p>Explorador: {{ historia.explorador }}</p>
+    <p>Ubicación: {{ historia.planeta }}</p>
+    <p>Idioma: {{ historia.idioma }}</p>
+
+    <a class="enlace"
+       href="{{ url_for('editar_historia', id=historia.id) }}">
+       Editar
+    </a>
+
+    <form method="POST"
+          action="{{ url_for('eliminar_historia', id=historia.id) }}"
+          style="display:inline"
+          onsubmit="return confirm('¿Eliminar esta historia?')">
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+{% else %}
+<p>Aún no hay historias registradas.</p>
+{% endfor %}
+</section>
+
+<p><a class="enlace" href="/">Volver a VOCES DEL ESPACIO</a></p>
+
+<form method="POST" action="{{ url_for('logout') }}">
+<button type="submit">Cerrar sesión</button>
+</form>
+</main>
+</body>
+</html>

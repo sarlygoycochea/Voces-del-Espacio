@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mi cuenta | VOCES DEL ESPACIO</title>
+</head>
+<body style="background:#100c35;color:white;font-family:Arial;text-align:center;padding:40px">
+    <h1>🚀 VOCES DEL ESPACIO</h1>
+    <h2>Bienvenido, {{ session.nombre }}</h2>
+    <p>Tu sesión está activa.</p>
+    <p>Tu rol: {{ session.rol }}</p>
+
+    <form method="POST" action="/logout">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <p><a href="/" style="color:#f7ce70">Volver a la página principal</a></p>
+</body>
+</html>

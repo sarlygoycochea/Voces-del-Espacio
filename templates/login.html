@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión | VOCES DEL ESPACIO</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #100c35, #24205e, #07152e);
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        main {
+            width: min(85%, 380px);
+            padding: 30px;
+            background: #191943;
+            border-radius: 18px;
+            text-align: center;
+        }
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 13px;
+            margin: 9px 0;
+            border: 0;
+            border-radius: 8px;
+        }
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 12px;
+            background: #f7ce70;
+            border: 0;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        a { color: #f7ce70; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>🌌 Bienvenido</h1>
+    <p>Accede a VOCES DEL ESPACIO</p>
+
+    {% for mensaje in get_flashed_messages() %}
+        <p>{{ mensaje }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        <input name="correo" type="email"
+               placeholder="Correo electrónico" required>
+        <input name="password" type="password"
+               placeholder="Contraseña" required>
+        <button type="submit">Iniciar sesión</button>
+    </form>
+
+    <p>¿No tienes cuenta? <a href="/registro">Regístrate</a></p>
+    <a href="/">Volver al inicio</a>
+</main>
+</body>
+</html>
